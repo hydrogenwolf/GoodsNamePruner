@@ -1,0 +1,58 @@
+﻿@model GoodsNamePruner.Models.ChangeRule
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ChangeRule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OwnerID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OwnerID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DefinitionDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DefinitionDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdjustmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdjustmentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Before)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Before)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.After)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.After)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

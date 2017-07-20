@@ -1,0 +1,39 @@
+﻿@model IEnumerable<GoodsNamePruner.Models.ChangeRule>
+
+@{
+    ViewBag.Title = "변환 규칙";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p style="margin:1em;">
+    @Html.ActionLink("새 규칙 추가", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Before)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.After)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Before)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.After)
+        </td>
+        <td>
+            @Html.ActionLink("수정", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("삭제", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

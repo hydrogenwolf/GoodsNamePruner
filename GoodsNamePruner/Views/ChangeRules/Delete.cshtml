@@ -1,0 +1,39 @@
+﻿@model GoodsNamePruner.Models.ChangeRule
+
+@{
+    ViewBag.Title = "변환 규칙 삭제";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<h3>다음 규칙을 삭제하시겠습니까?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Before)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Before)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.After)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.After)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="삭제" class="btn btn-default" /> |
+            @Html.ActionLink("리스트로 돌아가기", "Index")
+        </div>
+    }
+</div>
