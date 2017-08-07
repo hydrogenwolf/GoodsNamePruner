@@ -250,15 +250,22 @@ namespace GoodsNamePruner.Controllers
                             if(rule["Before"].ToString() == s)
                             {
                                 workbook.ActiveSheet.Range(column).Value = rule["After"] + " " + count;
+                                workbook.ActiveSheet.Range(column).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
+                                //workbook.ActiveSheet.Range(column).Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Brown);
+                                //workbook.ActiveSheet.Range(column).Font.Bold = true;
+                                //workbook.ActiveSheet.Range(column).Font.Italic = true;
+
                                 found = true;
                                 break;
                             }
                         }
 
+                        /*
                         if(!found)
                         {
                             workbook.ActiveSheet.Range(column).Value = Beautify(RemoveDuplicates(RemoveOptionNumbers(RemoveWords(s)))) + " " + count;
                         }
+                        */
                     }
 
                     workbook.SaveAs(resultFile);
