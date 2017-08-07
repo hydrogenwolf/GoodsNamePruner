@@ -22,7 +22,7 @@ namespace GoodsNamePruner.Controllers
         // GET: ChangeRules
         public ActionResult Index()
         {
-            return View(db.ChangeRules.ToList());
+            return View(db.ChangeRules.OrderBy(s => s.ID).ToList());
         }
 
         // GET: ChangeRules/Details/5
