@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsNamePruner", "GoodsNamePruner\GoodsNamePruner.csproj", "{20EB8971-9E98-4F9D-868B-2E5199E7B998}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RulesReader", "RulesReader\RulesReader.csproj", "{34AE2276-19DE-4A1D-BE15-DC8E054EB0AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{20EB8971-9E98-4F9D-868B-2E5199E7B998}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20EB8971-9E98-4F9D-868B-2E5199E7B998}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20EB8971-9E98-4F9D-868B-2E5199E7B998}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34AE2276-19DE-4A1D-BE15-DC8E054EB0AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34AE2276-19DE-4A1D-BE15-DC8E054EB0AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34AE2276-19DE-4A1D-BE15-DC8E054EB0AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34AE2276-19DE-4A1D-BE15-DC8E054EB0AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
