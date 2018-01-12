@@ -206,31 +206,20 @@ namespace GoodsNamePruner.Controllers
                     var workbooks = excelApplication.Workbooks;
                     var workbook = workbooks.Open(uploadFile);
 
+                    long fullRow = workbook.ActiveSheet.Rows.Count;
+                    long lastRow = workbook.ActiveSheet.Cells[fullRow, 1].End(Excel.XlDirection.xlUp).Row;
+
                     char goodsNameColumn = 'H';
-                    for (char c = 'A'; c <= 'Z'; c++)
-                    {
-                        string column = c + "1";
 
-                        if (workbook.ActiveSheet.Range(column).Value == "품목"
-                            || workbook.ActiveSheet.Range(column).Value == "품목명"
-                            || workbook.ActiveSheet.Range(column).Value == "상품"
-                            || workbook.ActiveSheet.Range(column).Value == "상품명"
-                            )
-                        {
-                            goodsNameColumn = c;
-                            break;
-                        }
-                    }
-
-                    for (int row = 1; ; row++)
+                    for (int row = 1; row <= lastRow; row++)
                     {
                         string column = goodsNameColumn + row.ToString();
 
                         string s = workbook.ActiveSheet.Range(column).Value;
-                        if (String.IsNullOrWhiteSpace(s)) break;
                         //s = Crop(s);
 
                         s = s.Trim();
+                        /*
                         string count = String.Empty;
                         string pattern = @"^(.+)(\[\d+\])$";
                         Regex rgx = new Regex(pattern);
@@ -241,7 +230,7 @@ namespace GoodsNamePruner.Controllers
                             count = match.Groups[2].Value;
                         }
                         s = s.Trim();
-
+                        */
                         bool found = false;
                         //foundRows = changeRules.Select(String.Format("Before = '{0}'", s));
                         // DataTable.Select 메소드에 제약이 많아 대신 foreach 사용
@@ -249,7 +238,7 @@ namespace GoodsNamePruner.Controllers
                         {
                             if(rule["Before"].ToString() == s)
                             {
-                                workbook.ActiveSheet.Range(column).Value = rule["After"] + " " + count;
+                                workbook.ActiveSheet.Range(column).Value = rule["After"];
                                 workbook.ActiveSheet.Range(column).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
                                 //workbook.ActiveSheet.Range(column).Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Brown);
                                 //workbook.ActiveSheet.Range(column).Font.Bold = true;
