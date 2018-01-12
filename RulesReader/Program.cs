@@ -14,10 +14,8 @@ namespace RulesReader
     {
         static string fileName = Path.Combine(Directory.GetCurrentDirectory(), "rules.xlsx");
         static string connectionString = String.Format("Server=.;Database=Noition;Trusted_Connection=True;");
-        static string firstColumn = "A";
-        static string lastColumn = "J";
         static int titleRow = 1;
-        static string tableName = "Sales";
+        static string tableName = "ChangeRules";
 
         static void Main(string[] args)
         {
@@ -43,91 +41,71 @@ namespace RulesReader
             long fullRow = sheet.Rows.Count;
             long lastRow = sheet.Cells[fullRow, 1].End(XlDirection.xlUp).Row;
 
-            Range titles = sheet.get_Range(String.Format("{0}{1}:{2}{1}", firstColumn, titleRow, lastColumn), Type.Missing);
-            string[] fields = new string[titles.Count];
-            int column = 0;
-            foreach (Range title in titles)
-            {
-                if (title.Value2 == null)
-                {
-                    column += 1;
-                    continue;
-                }
+            string query = String.Format("INSERT INTO {0} ([OwnerID], [Before], [After]) VALUES ('5f39e5a7 - f4c7 - 49af - 9b55 - 796eb8c33d33', @F0, @F1)", tableName);
 
-                //fields[column] = title.Value2.ToString(); // 실제 저장된 값
-                fields[column] = title.Text.ToString();     // 사용자에게 보여지는 값
-
-                column += 1;
-            }
-
-            // 칼럼 제목이 상이한 자료를 위한 보정 작업
-            if (fields[6].Equals("공급가합계")) fields[6] = "택배비";
-
-            string c = "", v = "";
-            for (int i = 0; i < fields.Length; i++)
-            {
-                if (!String.IsNullOrEmpty(fields[i]))
-                {
-                    if (c.Length > 0) c += ", ";
-                    if (v.Length > 0) v += ", ";
-
-                    c += "[" + fields[i] + "]";
-                    v += "@F" + i;
-                }
-            }
-            string query = String.Format("INSERT INTO {0} ({1}) VALUES ({2})", tableName, c, v);
-
-            char goodsNameColumn = 'H';
+            char beforeNameColumn = 'H';
             char optionNameColumn = 'I';
+            char afterNameColumn = 'J';
 
             for (int row = titleRow + 1; row <= lastRow; row++)
             {
                 //Range cells = sheet.get_Range(String.Format("{0}{1}:{2}{1}", firstColumn, row, lastColumn), Type.Missing);
 
-                string cell = goodsNameColumn + row.ToString();
-                string goodsName = workbook.ActiveSheet.Range(cell).Value;
+                string cell = beforeNameColumn + row.ToString();
+                string beforeName = workbook.ActiveSheet.Range(cell).Value;
 
-                goodsName = goodsName.Trim();
+                cell = optionNameColumn + row.ToString();
+                string optionName = workbook.ActiveSheet.Range(cell).Value;
+
+                cell = afterNameColumn + row.ToString();
+                string afterName = workbook.ActiveSheet.Range(cell).Value;
+
+                beforeName = beforeName.Trim();
                 string count = String.Empty;
                 string pattern = @"^(.+)(\[\d+\])$";
                 Regex rgx = new Regex(pattern);
-                Match match = Regex.Match(goodsName, pattern);
+                Match match = Regex.Match(beforeName, pattern);
                 if (match.Success)
                 {
-                    goodsName = match.Groups[1].Value;
+                    beforeName = match.Groups[1].Value;
                     count = match.Groups[2].Value;
                 }
-                goodsName = goodsName.Trim();
+                beforeName = beforeName.Trim();
 
-                Console.WriteLine(goodsName);
-
-                /*
-                Range cells = sheet.get_Range(String.Format("{0}{1}:{2}{1}", firstColumn, row, lastColumn), Type.Missing);
-                bool goingOn = false;
-                int i = 0;
-                List<SqlParameter> parameters = new List<SqlParameter>();
-                foreach (Range cell in cells)
+                afterName = afterName.Trim();
+                rgx = new Regex(pattern);
+                match = Regex.Match(afterName, pattern);
+                if (match.Success)
                 {
-                    if (String.IsNullOrEmpty(fields[i]))
-                    {
-                        i += 1;
-                        continue;
-                    }
+                    afterName = match.Groups[1].Value;
+                }
+                afterName = afterName.Trim();
 
-                    if (cell.Value2 == null)
-                    {
-                        parameters.Add(new SqlParameter("@F" + i, ""));
-                    }
-                    else
-                    {
-                        parameters.Add(new SqlParameter("@F" + i, cell.Value2));    // 보여지는 값이 아닌 실제 저장된 값을 저장
-                        goingOn = true;
-                    }
+                if (!String.IsNullOrWhiteSpace(optionName))
+                {
+                    optionName = optionName.Trim();
+                    string escapedOptionName = Regex.Escape(optionName);
 
-                    i += 1;
+                    pattern = "^(.+)(" + escapedOptionName + ")$";
+                    rgx = new Regex(pattern);
+                    match = Regex.Match(beforeName, pattern);
+                    if (match.Success)
+                    {
+                        beforeName = match.Groups[1].Value;
+                    }
+                    beforeName = beforeName.Trim();
+
+                    match = Regex.Match(afterName, pattern);
+                    if (match.Success)
+                    {
+                        afterName = match.Groups[1].Value;
+                    }
+                    afterName = afterName.Trim();
                 }
 
-                if (!goingOn) continue;    // 마지막 Row를 지정하지 않는 대신 데이터가 없는 Row가 나오면 거기에서 중지
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@F0", beforeName));
+                parameters.Add(new SqlParameter("@F1", afterName));
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 using (SqlCommand command = connection.CreateCommand())
@@ -139,7 +117,8 @@ namespace RulesReader
 
                     Console.WriteLine(row);
                 }
-                 */
+
+                Console.WriteLine(row + " : " + beforeName + " --> " + afterName);
             }
         }
     }
