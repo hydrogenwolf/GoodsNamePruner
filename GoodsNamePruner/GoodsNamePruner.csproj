@@ -269,10 +269,12 @@
     <Content Include="Views\ChangeRules\Edit.cshtml" />
     <Content Include="Views\ChangeRules\Index.cshtml" />
     <Content Include="Views\ChangeRules\Prune.cshtml" />
+    <Content Include="Views\ChangeRules\Convert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Result\" />
     <Folder Include="App_Data\Upload\" />
+    <Folder Include="Upload\Result\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

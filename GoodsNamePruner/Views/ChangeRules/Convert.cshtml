@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "상품명 변환";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p>
+    변환한 엑셀 파일을 다운로드하세요.
+</p>
+<div style="margin:2em; padding:1em 2em; border:1px solid gray;">
+    변환 완료
+</div>
+
+<form action="@ViewBag.ResultFile" method="get" target="_blank">
+    <button type="submit">다운로드</button>
+</form>

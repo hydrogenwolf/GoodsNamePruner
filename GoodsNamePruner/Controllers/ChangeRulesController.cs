@@ -192,8 +192,8 @@ namespace GoodsNamePruner.Controllers
 
                     var fileName = Path.GetFileName(file.FileName);
 
-                    string uploadFile = Server.MapPath(Path.Combine("~/App_Data/Upload", fileName));
-                    string resultFile = Server.MapPath(Path.Combine("~/App_Data/Result", fileName));
+                    string uploadFile = Server.MapPath(Path.Combine("~/Upload", fileName));
+                    string resultFile = Server.MapPath(Path.Combine("~/Upload/Result", fileName));
 
                     if (System.IO.File.Exists(uploadFile)) System.IO.File.Delete(uploadFile);
                     if (System.IO.File.Exists(resultFile)) System.IO.File.Delete(resultFile);
@@ -263,7 +263,9 @@ namespace GoodsNamePruner.Controllers
                     workbooks.Close();
                     excelApplication.Quit();
 
-                    return new FilePathResult(resultFile, "application/vnd.ms-excel");
+                    //return new FilePathResult(resultFile, "application/vnd.ms-excel");
+                    ViewBag.ResultFile = Path.Combine("/Upload/Result", fileName);
+                    return View();
                 }
             }
             catch (Exception ex)
@@ -271,7 +273,7 @@ namespace GoodsNamePruner.Controllers
                 Console.WriteLine(ex);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Prune");
         }
 
         protected string RemoveWords(string s)
